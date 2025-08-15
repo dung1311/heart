@@ -41,7 +41,7 @@
             width: 200px;
             height: 200px;
             position: relative;
-            transform: rotate(-45deg);
+            transform: rotate(0deg);
             animation: heartbeat 1.5s ease-in-out infinite;
             filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
         }
@@ -56,69 +56,96 @@
             transform-origin: 0 100%;
             background: linear-gradient(135deg, #ff1744, #e91e63, #f06292);
             border-radius: 100px 100px 0 0;
-            transform: rotate(-45deg) translateZ(0);
+            transform: rotate(0deg) translateZ(0);
         }
 
         .heart::after {
             left: 0;
-            transform: rotate(45deg) translateZ(0);
+            transform: rotate(90deg) translateZ(0);
             transform-origin: 100% 100%;
         }
 
         @keyframes heartbeat {
             0%, 100% {
-                transform: rotate(-45deg) scale(1);
+                transform: rotate(0deg) scale(1);
                 filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
             }
             25% {
-                transform: rotate(-45deg) scale(1.1);
+                transform: rotate(0deg) scale(1.1);
                 filter: drop-shadow(0 0 30px rgba(255, 255, 255, 1));
             }
             50% {
-                transform: rotate(-45deg) scale(1.2);
+                transform: rotate(0deg) scale(1.2);
                 filter: drop-shadow(0 0 40px rgba(255, 255, 255, 1));
             }
             75% {
-                transform: rotate(-45deg) scale(1.1);
+                transform: rotate(0deg) scale(1.1);
                 filter: drop-shadow(0 0 30px rgba(255, 255, 255, 1));
             }
         }
 
         .love-text {
-            position: absolute;
-            top: 60%;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            margin-top: 50px;
             font-size: 3rem;
             font-weight: bold;
             color: white;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            opacity: 0;
-            animation: textAppear 2s ease-in-out forwards;
-            animation-delay: 5s;
             text-align: center;
             white-space: nowrap;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
 
-        @keyframes textAppear {
+        .word {
+            display: inline-block;
+            opacity: 0;
+        }
+
+        .word:nth-child(1) {
+            animation: wordFlyIn 2s ease-out forwards;
+            animation-delay: 5s;
+        }
+
+        .word:nth-child(2) {
+            animation: wordFlyIn 2s ease-out forwards;
+            animation-delay: 5.5s;
+        }
+
+        .word:nth-child(3) {
+            animation: wordFlyIn 2s ease-out forwards;
+            animation-delay: 6s;
+        }
+
+        @keyframes wordFlyIn {
             0% {
                 opacity: 0;
-                transform: translateX(-50%) translateY(30px) scale(0.5);
+                transform: translate(var(--random-x, 0), var(--random-y, 0)) rotate(var(--random-rotate, 0)) scale(0.3);
                 filter: blur(10px);
+                color: rgba(255, 255, 255, 0.3);
             }
-            50% {
+            30% {
                 opacity: 0.7;
-                transform: translateX(-50%) translateY(0px) scale(1.1);
+                filter: blur(5px);
+            }
+            70% {
+                transform: translate(calc(var(--random-x, 0) * 0.3), calc(var(--random-y, 0) * 0.3)) rotate(calc(var(--random-rotate, 0) * 0.3)) scale(0.9);
+                opacity: 0.9;
                 filter: blur(2px);
             }
             100% {
                 opacity: 1;
-                transform: translateX(-50%) translateY(0px) scale(1);
+                transform: translate(0, 0) rotate(0) scale(1);
                 filter: blur(0px);
+                color: white;
                 text-shadow: 
                     0 0 10px rgba(255, 255, 255, 1),
                     0 0 20px rgba(255, 105, 180, 0.8),
-                    0 0 30px rgba(255, 20, 147, 0.6);
+                    0 0 30px rgba(255, 20, 147, 0.6),
+                    0 0 40px rgba(199, 21, 133, 0.4);
             }
         }
 
@@ -209,10 +236,31 @@
     
     <div class="container">
         <div class="heart"></div>
-        <div class="love-text glow-text">Dũng yêu Linh</div>
+        <div class="love-text glow-text">
+            <span class="word">Dũng</span>
+            <span class="word">yêu</span>
+            <span class="word">Linh</span>
+        </div>
     </div>
 
     <script>
+        // Tạo hiệu ứng từ bay từ các hướng khác nhau
+        function setupWordAnimations() {
+            const words = document.querySelectorAll('.word');
+            const positions = [
+                { x: '-200px', y: '-100px', rotate: '-45deg' },
+                { x: '150px', y: '-150px', rotate: '60deg' },
+                { x: '-180px', y: '120px', rotate: '30deg' }
+            ];
+            
+            words.forEach((word, index) => {
+                const pos = positions[index];
+                word.style.setProperty('--random-x', pos.x);
+                word.style.setProperty('--random-y', pos.y);
+                word.style.setProperty('--random-rotate', pos.rotate);
+            });
+        }
+
         // Tạo hiệu ứng tia sáng xung quanh trái tim
         function createSparkles() {
             const heart = document.querySelector('.heart');
@@ -255,6 +303,7 @@
 
         // Bắt đầu hiệu ứng
         window.addEventListener('load', () => {
+            setupWordAnimations();
             createParticles();
             
             // Tạo tia sáng mỗi 2 giây
@@ -263,7 +312,7 @@
             // Tạo tia sáng ngay lập tức
             setTimeout(createSparkles, 500);
             
-            // Tạo hiệu ứng đặc biệt khi text xuất hiện
+            // Tạo hiệu ứng đặc biệt khi tất cả text đã xuất hiện
             setTimeout(() => {
                 createSparkles();
                 // Thêm hiệu ứng rung lắc nhẹ cho toàn bộ container
@@ -273,7 +322,7 @@
                 setTimeout(() => {
                     container.style.animation = '';
                 }, 500);
-            }, 5000);
+            }, 8000); // Sau khi từ cuối cùng xuất hiện
         });
 
         // Hiệu ứng rung lắc
