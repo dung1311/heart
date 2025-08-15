@@ -11,22 +11,15 @@
             box-sizing: border-box;
         }
 
-        body {
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffb3b3, #ff6b6b);
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-            height: 100vh;
+        html, body {
+            height: 100%;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            padding: 20px;
         }
 
         .container {
@@ -35,62 +28,56 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            width: 100%;
+            max-width: 800px;
         }
 
-        .heart {
-            width: 200px;
-            height: 200px;
+        .box {
+            width: 100%;
             position: relative;
-            transform: rotate(0deg);
-            animation: heartbeat 1.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .heart::before,
-        .heart::after {
-            content: '';
-            width: 100px;
-            height: 160px;
-            position: absolute;
-            left: 100px;
-            transform-origin: 0 100%;
-            background: linear-gradient(135deg, #ff1744, #e91e63, #f06292);
-            border-radius: 100px 100px 0 0;
-            transform: rotate(0deg) translateZ(0);
+        canvas {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 750px;
+            max-height: 750px;
         }
 
-        .heart::after {
-            left: 0;
-            transform: rotate(90deg) translateZ(0);
-            transform-origin: 100% 100%;
+        #pinkboard {
+            position: relative;
+            margin: auto;
+            height: 750px;
+            width: 750px;
+            animation: animate 2s infinite;
         }
 
-        @keyframes heartbeat {
-            0%, 100% {
-                transform: rotate(0deg) scale(1);
-                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+        @keyframes animate {
+            0% {
+                transform: scale(1);
             }
-            25% {
-                transform: rotate(0deg) scale(1.1);
-                filter: drop-shadow(0 0 30px rgba(255, 255, 255, 1));
+            30% {
+                transform: scale(0.95);
             }
-            50% {
-                transform: rotate(0deg) scale(1.2);
-                filter: drop-shadow(0 0 40px rgba(255, 255, 255, 1));
+            60% {
+                transform: scale(1.05);
             }
-            75% {
-                transform: rotate(0deg) scale(1.1);
-                filter: drop-shadow(0 0 30px rgba(255, 255, 255, 1));
+            100% {
+                transform: scale(1);
             }
         }
 
         .love-text {
             position: relative;
-            margin-top: 50px;
+            margin-top: 30px;
             font-size: 3rem;
             font-weight: bold;
-            color: white;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            color: #FF5CA4;
+            text-shadow: 0 0 10px rgba(255, 92, 164, 0.8);
             text-align: center;
             white-space: nowrap;
             z-index: 10;
@@ -98,6 +85,7 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .word {
@@ -125,7 +113,7 @@
                 opacity: 0;
                 transform: translate(var(--random-x, 0), var(--random-y, 0)) rotate(var(--random-rotate, 0)) scale(0.3);
                 filter: blur(10px);
-                color: rgba(255, 255, 255, 0.3);
+                color: rgba(255, 92, 164, 0.3);
             }
             30% {
                 opacity: 0.7;
@@ -140,12 +128,33 @@
                 opacity: 1;
                 transform: translate(0, 0) rotate(0) scale(1);
                 filter: blur(0px);
-                color: white;
+                color: #FF5CA4;
                 text-shadow: 
-                    0 0 10px rgba(255, 255, 255, 1),
-                    0 0 20px rgba(255, 105, 180, 0.8),
-                    0 0 30px rgba(255, 20, 147, 0.6),
-                    0 0 40px rgba(199, 21, 133, 0.4);
+                    0 0 10px rgba(255, 92, 164, 1),
+                    0 0 20px rgba(255, 92, 164, 0.8),
+                    0 0 30px rgba(255, 92, 164, 0.6),
+                    0 0 40px rgba(255, 92, 164, 0.4);
+            }
+        }
+
+        .glow-text {
+            animation: glow 2s ease-in-out infinite alternate;
+            animation-delay: 7s;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 
+                    0 0 10px rgba(255, 92, 164, 1),
+                    0 0 20px rgba(255, 92, 164, 0.8),
+                    0 0 30px rgba(255, 92, 164, 0.6);
+            }
+            to {
+                text-shadow: 
+                    0 0 20px rgba(255, 92, 164, 1),
+                    0 0 30px rgba(255, 92, 164, 1),
+                    0 0 40px rgba(255, 92, 164, 0.8),
+                    0 0 50px rgba(255, 92, 164, 0.6);
             }
         }
 
@@ -153,7 +162,7 @@
             position: absolute;
             width: 4px;
             height: 4px;
-            background: white;
+            background: #FF5CA4;
             border-radius: 50%;
             pointer-events: none;
         }
@@ -173,69 +182,53 @@
             }
         }
 
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
+        /* Mobile responsive */
+        @media screen and (max-width: 414px) {
+            #pinkboard {
+                width: 400px;
+                height: 400px;
             }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) rotate(360deg);
-                opacity: 0;
+            
+            .love-text {
+                font-size: 2.2rem;
+                margin-top: 20px;
+                gap: 8px;
             }
         }
 
-        .glow-text {
-            animation: glow 2s ease-in-out infinite alternate;
-            animation-delay: 7s;
+        @media screen and (max-width: 375px) {
+            #pinkboard {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .love-text {
+                font-size: 1.8rem;
+                margin-top: 15px;
+                gap: 6px;
+            }
         }
 
-        @keyframes glow {
-            from {
-                text-shadow: 
-                    0 0 10px rgba(255, 255, 255, 1),
-                    0 0 20px rgba(255, 105, 180, 0.8),
-                    0 0 30px rgba(255, 20, 147, 0.6);
+        /* Landscape mode */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            #pinkboard {
+                width: 300px;
+                height: 300px;
             }
-            to {
-                text-shadow: 
-                    0 0 20px rgba(255, 255, 255, 1),
-                    0 0 30px rgba(255, 105, 180, 1),
-                    0 0 40px rgba(255, 20, 147, 0.8),
-                    0 0 50px rgba(199, 21, 133, 0.6);
+            
+            .love-text {
+                font-size: 1.5rem;
+                margin-top: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    
     <div class="container">
-        <div class="heart"></div>
+        <div class="box">
+            <canvas id="pinkboard"></canvas>
+        </div>
+        
         <div class="love-text glow-text">
             <span class="word">Dũng</span>
             <span class="word">yêu</span>
@@ -244,10 +237,174 @@
     </div>
 
     <script>
+        // Particle settings
+        var settings = {
+            particles: {
+                length: 5000, // maximum amount of particles
+                duration: 3.5, // particle duration in sec
+                velocity: 100, // particle velocity in pixels/sec
+                effect: -1.5, // play with this for a nice effect
+                size: 8, // particle size in pixels
+            },
+        };
+
+        // RequestAnimationFrame polyfill
+        (function () {
+            var b = 0;
+            var c = ["ms", "moz", "webkit", "o"];
+            for (var a = 0; a < c.length && !window.requestAnimationFrame; ++a) {
+                window.requestAnimationFrame = window[c[a] + "RequestAnimationFrame"];
+                window.cancelAnimationFrame =
+                    window[c[a] + "CancelAnimationFrame"] ||
+                    window[c[a] + "CancelRequestAnimationFrame"];
+            }
+            if (!window.requestAnimationFrame) {
+                window.requestAnimationFrame = function (h, e) {
+                    var d = new Date().getTime();
+                    var f = Math.max(0, 16 - (d - b));
+                    var g = window.setTimeout(function () {
+                        h(d + f);
+                    }, f);
+                    b = d + f;
+                    return g;
+                };
+            }
+            if (!window.cancelAnimationFrame) {
+                window.cancelAnimationFrame = function (d) {
+                    clearTimeout(d);
+                };
+            }
+        })();
+
+        // Point class
+        var Point = (function () {
+            function Point(x, y) {
+                this.x = typeof x !== "undefined" ? x : 0;
+                this.y = typeof y !== "undefined" ? y : 0;
+            }
+            Point.prototype.clone = function () {
+                return new Point(this.x, this.y);
+            };
+            Point.prototype.length = function (length) {
+                if (typeof length == "undefined")
+                    return Math.sqrt(this.x * this.x + this.y * this.y);
+                this.normalize();
+                this.x *= length;
+                this.y *= length;
+                return this;
+            };
+            Point.prototype.normalize = function () {
+                var length = this.length();
+                this.x /= length;
+                this.y /= length;
+                return this;
+            };
+            return Point;
+        })();
+
+        // Particle class
+        var Particle = (function () {
+            function Particle() {
+                this.position = new Point();
+                this.velocity = new Point();
+                this.acceleration = new Point();
+                this.age = 0;
+            }
+            Particle.prototype.initialize = function (x, y, dx, dy) {
+                this.position.x = x;
+                this.position.y = y;
+                this.velocity.x = dx;
+                this.velocity.y = dy;
+                this.acceleration.x = dx * settings.particles.effect;
+                this.acceleration.y = dy * settings.particles.effect;
+                this.age = 0;
+            };
+            Particle.prototype.update = function (deltaTime) {
+                this.position.x += this.velocity.x * deltaTime;
+                this.position.y += this.velocity.y * deltaTime;
+                this.velocity.x += this.acceleration.x * deltaTime;
+                this.velocity.y += this.acceleration.y * deltaTime;
+                this.age += deltaTime;
+            };
+            Particle.prototype.draw = function (context, image) {
+                function ease(t) {
+                    return --t * t * t + 1;
+                }
+                var size = image.width * ease(this.age / settings.particles.duration);
+                context.globalAlpha = 1 - this.age / settings.particles.duration;
+                context.drawImage(
+                    image,
+                    this.position.x - size / 2,
+                    this.position.y - size / 2,
+                    size,
+                    size
+                );
+            };
+            return Particle;
+        })();
+
+        // ParticlePool class
+        var ParticlePool = (function () {
+            var particles,
+                firstActive = 0,
+                firstFree = 0,
+                duration = settings.particles.duration;
+
+            function ParticlePool(length) {
+                particles = new Array(length);
+                for (var i = 0; i < particles.length; i++)
+                    particles[i] = new Particle();
+            }
+            ParticlePool.prototype.add = function (x, y, dx, dy) {
+                particles[firstFree].initialize(x, y, dx, dy);
+                firstFree++;
+                if (firstFree == particles.length) firstFree = 0;
+                if (firstActive == firstFree) firstActive++;
+                if (firstActive == particles.length) firstActive = 0;
+            };
+            ParticlePool.prototype.update = function (deltaTime) {
+                var i;
+                if (firstActive < firstFree) {
+                    for (i = firstActive; i < firstFree; i++)
+                        particles[i].update(deltaTime);
+                }
+                if (firstFree < firstActive) {
+                    for (i = firstActive; i < particles.length; i++)
+                        particles[i].update(deltaTime);
+                    for (i = 0; i < firstFree; i++) particles[i].update(deltaTime);
+                }
+                while (
+                    particles[firstActive].age >= duration &&
+                    firstActive != firstFree
+                ) {
+                    firstActive++;
+                    if (firstActive == particles.length) firstActive = 0;
+                }
+            };
+            ParticlePool.prototype.draw = function (context, image) {
+                if (firstActive < firstFree) {
+                    for (i = firstActive; i < firstFree; i++)
+                        particles[i].draw(context, image);
+                }
+                if (firstFree < firstActive) {
+                    for (i = firstActive; i < particles.length; i++)
+                        particles[i].draw(context, image);
+                    for (i = 0; i < firstFree; i++) particles[i].draw(context, image);
+                }
+            };
+            return ParticlePool;
+        })();
+
         // Tạo hiệu ứng từ bay từ các hướng khác nhau
         function setupWordAnimations() {
             const words = document.querySelectorAll('.word');
-            const positions = [
+            const isMobile = window.innerWidth <= 414;
+            
+            const positions = isMobile ? [
+                { x: '-120px', y: '-80px', rotate: '-45deg' },
+                { x: '100px', y: '-100px', rotate: '60deg' },
+                { x: '-100px', y: '80px', rotate: '30deg' }
+            ] : [
                 { x: '-200px', y: '-100px', rotate: '-45deg' },
                 { x: '150px', y: '-150px', rotate: '60deg' },
                 { x: '-180px', y: '120px', rotate: '30deg' }
@@ -261,18 +418,19 @@
             });
         }
 
-        // Tạo hiệu ứng tia sáng xung quanh trái tim
+        // Tạo hiệu ứng tia sáng
         function createSparkles() {
-            const heart = document.querySelector('.heart');
-            const heartRect = heart.getBoundingClientRect();
+            const container = document.querySelector('.container');
+            const isMobile = window.innerWidth <= 414;
+            const sparkleCount = isMobile ? 10 : 15;
             
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < sparkleCount; i++) {
                 setTimeout(() => {
                     const sparkle = document.createElement('div');
                     sparkle.className = 'sparkle';
                     
-                    const angle = (i / 15) * 360;
-                    const radius = 120 + Math.random() * 50;
+                    const angle = (i / sparkleCount) * 360;
+                    const radius = isMobile ? 150 : 200;
                     const x = Math.cos(angle * Math.PI / 180) * radius;
                     const y = Math.sin(angle * Math.PI / 180) * radius;
                     
@@ -287,56 +445,108 @@
             }
         }
 
-        // Tạo hạt bay
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (4 + Math.random() * 4) + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
+        // Main heart particle animation
+        (function (canvas) {
+            var context = canvas.getContext("2d"),
+                particles = new ParticlePool(settings.particles.length),
+                particleRate = settings.particles.length / settings.particles.duration,
+                time;
 
-        // Bắt đầu hiệu ứng
+            // Get point on heart with -PI <= t <= PI
+            function pointOnHeart(t) {
+                return new Point(
+                    160 * Math.pow(Math.sin(t), 3),
+                    130 * Math.cos(t) -
+                        50 * Math.cos(2 * t) -
+                        20 * Math.cos(3 * t) -
+                        10 * Math.cos(4 * t) +
+                        25
+                );
+            }
+
+            // Create the particle image
+            var image = (function () {
+                var canvas = document.createElement("canvas"),
+                    context = canvas.getContext("2d");
+                canvas.width = settings.particles.size;
+                canvas.height = settings.particles.size;
+
+                function to(t) {
+                    var point = pointOnHeart(t);
+                    point.x = settings.particles.size / 2 + (point.x * settings.particles.size) / 350;
+                    point.y = settings.particles.size / 2 - (point.y * settings.particles.size) / 350;
+                    return point;
+                }
+
+                context.beginPath();
+                var t = -Math.PI;
+                var point = to(t);
+                context.moveTo(point.x, point.y);
+                while (t < Math.PI) {
+                    t += 0.01;
+                    point = to(t);
+                    context.lineTo(point.x, point.y);
+                }
+                context.closePath();
+                context.fillStyle = "#FF5CA4";
+                context.fill();
+
+                var image = new Image();
+                image.src = canvas.toDataURL();
+                return image;
+            })();
+
+            // Render function
+            function render() {
+                requestAnimationFrame(render);
+
+                var newTime = new Date().getTime() / 1000,
+                    deltaTime = newTime - (time || newTime);
+                time = newTime;
+
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                var amount = particleRate * deltaTime;
+                for (var i = 0; i < amount; i++) {
+                    var pos = pointOnHeart(Math.PI - 2 * Math.PI * Math.random());
+                    var dir = pos.clone().length(settings.particles.velocity);
+                    particles.add(
+                        canvas.width / 2 + pos.x,
+                        canvas.height / 2 - pos.y,
+                        dir.x,
+                        -dir.y
+                    );
+                }
+
+                particles.update(deltaTime);
+                particles.draw(context, image);
+            }
+
+            // Handle canvas resizing
+            function onResize() {
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+            }
+            window.onresize = onResize;
+
+            setTimeout(function () {
+                onResize();
+                render();
+            }, 10);
+        })(document.getElementById("pinkboard"));
+
+        // Initialize everything
         window.addEventListener('load', () => {
             setupWordAnimations();
-            createParticles();
             
-            // Tạo tia sáng mỗi 2 giây
-            setInterval(createSparkles, 2000);
-            
-            // Tạo tia sáng ngay lập tức
-            setTimeout(createSparkles, 500);
+            // Tạo tia sáng mỗi 3 giây
+            setInterval(createSparkles, 3000);
             
             // Tạo hiệu ứng đặc biệt khi tất cả text đã xuất hiện
             setTimeout(() => {
                 createSparkles();
-                // Thêm hiệu ứng rung lắc nhẹ cho toàn bộ container
-                const container = document.querySelector('.container');
-                container.style.animation = 'shake 0.5s ease-in-out';
-                
-                setTimeout(() => {
-                    container.style.animation = '';
-                }, 500);
-            }, 8000); // Sau khi từ cuối cùng xuất hiện
+            }, 8000);
         });
-
-        // Hiệu ứng rung lắc
-        const shakeKeyframes = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
-                20%, 40%, 60%, 80% { transform: translateX(2px); }
-            }
-        `;
-        
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = shakeKeyframes;
-        document.head.appendChild(styleSheet);
     </script>
 </body>
 </html>
